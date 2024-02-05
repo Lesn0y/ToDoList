@@ -17,6 +17,12 @@ public class Task {
         this.deadline = deadline;
     }
 
+    public Task(String task, Timestamp deadline, boolean isDone) {
+        this.task = task;
+        this.isDone = isDone;
+        this.deadline = deadline;
+    }
+
     public int getId() {
         return id;
     }

@@ -1,13 +1,64 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>JSP - Hello World</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Play&family=Poppins&display=swap"
+            rel="stylesheet"
+    />
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="static/style.css">
+    <title>ToDoList</title>
 </head>
 <body>
-<h1><%= "Hello World!" %>
-</h1>
-<br/>
-<a href="hello-servlet">Hello Servlet</a>
+<div class="container">
+    <div class="todo-app">
+        <h2>To-Do List <img src="/static/todo-icon.png"/></h2>
+        <form method="POST">
+            <div class="row">
+                <input class="task-inp" type="text" name="task" placeholder="Add your mission"/>
+                <input class="date-inp" type="datetime-local" name="deadline">
+                <button class="add-btn" type="submit">Add</button>
+            </div>
+        </form>
+        <ul class="list-bl">
+            <c:forEach var="t" items="${tasks}">
+                <c:if test="${t.isDone()}">
+                    <li class="list-i">
+                        <form method="POST">
+                            <input type="hidden" name="_method" value="PUT">
+                            <input type="hidden" name="task_id" value="${t.getId()}">
+                            <button class="checked-circle"></button>
+                        </form>
+                            ${t.getTask()}
+                        <form method="POST">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="task_id" value="${t.getId()}">
+                            <button class="task-del"></button>
+                        </form>
+                    </li>
+                </c:if>
+                <c:if test="${!t.isDone()}">
+                    <li class="list-i">
+                        <form method="POST">
+                            <input type="hidden" name="_method" value="PUT">
+                            <input type="hidden" name="task_id" value="${t.getId()}">
+                            <button class="task-circle"></button>
+                        </form>
+                            ${t.getTask()}
+                        <form method="POST">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="task_id" value="${t.getId()}">
+                            <button class="task-del"></button>
+                        </form>
+                    </li>
+                </c:if>
+            </c:forEach>
+        </ul>
+    </div>
+</div>
 </body>
 </html>
