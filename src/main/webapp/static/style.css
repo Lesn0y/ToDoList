@@ -1,0 +1,157 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #153677, #4e085f);
+    padding: 10px;
+}
+
+.gr-todo-app {
+    text-align: center;
+    width: 100%;
+    max-width: 540px;
+    background: #fff;
+    margin: 140px auto 20px;
+    padding: 40px 30px;
+    border-radius: 10px;
+}
+
+.gr-todo-app h1{
+    color: #002;
+    font-size: 38px;
+}
+
+.gr-todo-app button{
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.todo-app {
+    width: 100%;
+    max-width: 540px;
+    background: #fff;
+    margin: 140px auto 20px;
+    padding: 40px 30px 70px;
+    border-radius: 10px;
+}
+
+.todo-app h2 {
+    color: #002;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.todo-app h2 img {
+    width: 30px;
+    margin-left: 10px;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #edeef0;
+    border-radius: 30px;
+    margin-bottom: 20px;
+}
+
+.task-inp {
+    width: 70%;
+    border: none;
+    background: transparent;
+    font-size: 17px;
+    padding: 0 20px;
+}
+
+.date-inp {
+    width: 40px;
+    height: 40px;
+    background-color: inherit;
+    font-size: 17px;
+    border: none;
+    outline: none;
+}
+::-webkit-calendar-picker-indicator{
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+input[type="datetime-local"]::-webkit-datetime-edit {
+    display:none;
+}
+
+input:focus-visible {
+    outline: none;
+}
+
+.add-btn {
+    width: 30%;
+    border: none;
+    outline: none;
+    padding: 15px;
+    background: #ff5945;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    border-bottom-right-radius: 30px;
+    border-top-right-radius: 30px;
+}
+
+.task-circle {
+    background-image: url(checkbox-blank-circle-line.svg);
+    background-color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+.checked-circle {
+    background-image: url(checkbox-circle-line.svg);
+    background-color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+.task-del{
+    background-image: url(delete-cross.svg);
+    background-color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+.list-bl {
+    list-style: none;
+    font-size: 19px;
+    padding: 12px 8px 12px;
+    user-select: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.list-i {
+    display: grid;
+    grid-template-columns: 30px 1fr 30px;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.list-i li.checked {
+    color: #555;
+    text-decoration: line-through;
+}
