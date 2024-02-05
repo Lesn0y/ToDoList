@@ -6,8 +6,8 @@ public class Task {
 
     private int id;
     private String task;
-    private boolean isDone;
     private Timestamp deadline;
+    private boolean isDone;
 
     public Task() {
     }
@@ -17,7 +17,8 @@ public class Task {
         this.deadline = deadline;
     }
 
-    public Task(String task, Timestamp deadline, boolean isDone) {
+    public Task(int id, String task, Timestamp deadline, boolean isDone) {
+        this.id = id;
         this.task = task;
         this.isDone = isDone;
         this.deadline = deadline;
