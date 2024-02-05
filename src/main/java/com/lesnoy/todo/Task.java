@@ -12,6 +12,10 @@ public class Task {
     public Task() {
     }
 
+    public Task(String task) {
+        this.task = task;
+    }
+
     public Task(String task, Timestamp deadline) {
         this.task = task;
         this.deadline = deadline;

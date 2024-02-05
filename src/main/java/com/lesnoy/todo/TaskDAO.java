@@ -40,7 +40,12 @@ public class TaskDAO {
     public List<Task> save(Task task) {
         try (Connection connection = DriverManager.getConnection(url);
              Statement statement = connection.createStatement()) {
-            String sqlQuery = String.format("INSERT INTO tasks(task, deadline) VALUES ('%s', '%s');", task.getTask(), task.getDeadline());
+            String sqlQuery;
+            if (task.getDeadline() == null) {
+                sqlQuery = String.format("INSERT INTO tasks(task) VALUES ('%s');", task.getTask());
+            } else {
+                sqlQuery = String.format("INSERT INTO tasks(task, deadline) VALUES ('%s', '%s');", task.getTask(), task.getDeadline());
+            }
             int i = statement.executeUpdate(sqlQuery);
             if (i == 1) {
                 List<Task> tasks = new ArrayList<>();
