@@ -1,6 +1,7 @@
 package com.lesnoy.todo;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class Task {
 
@@ -50,6 +51,13 @@ public class Task {
 
     public Timestamp getDeadline() {
         return deadline;
+    }
+
+    public String getFormatDeadline() {
+        if (this.deadline != null) {
+            return new SimpleDateFormat("dd.MM.yyyy HH:mm").format(this.deadline);
+        }
+        return "";
     }
 
     public void setDeadline(Timestamp deadline) {

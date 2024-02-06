@@ -35,7 +35,7 @@
 
 .todo-app {
     width: 100%;
-    max-width: 540px;
+    max-width: 720px;
     background: #fff;
     margin: 140px auto 20px;
     padding: 40px 30px 70px;
@@ -72,6 +72,7 @@
 }
 
 .date-inp {
+    margin-left: 50px;
     width: 40px;
     height: 40px;
     background-color: inherit;
@@ -93,7 +94,7 @@ input:focus-visible {
 }
 
 .add-btn {
-    width: 30%;
+    width: 15%;
     border: none;
     outline: none;
     padding: 15px;
@@ -146,12 +147,17 @@ input:focus-visible {
 
 .list-i {
     display: grid;
-    grid-template-columns: 30px 1fr 30px;
+    grid-template-columns: 30px 3fr 1fr 30px;
     gap: 10px;
     margin-top: 10px;
 }
 
-.list-i li.checked {
+.checked {
     color: #555;
     text-decoration: line-through;
+}
+
+.deadline {
+    margin: 0 5px;
+    font-size: 17px;
 }
