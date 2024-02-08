@@ -26,12 +26,11 @@
         </form>
         <ul class="list-bl">
             <c:forEach var="t" items="${tasks}">
-                <c:if test="${t.isDone()}">
-                    <li class="list-i checked">
-                        <form method="POST">
+                    <li class=${t.isDone() ? "checked" : "list-i"}>
+                        <form method="POST" class="circle-btn">
                             <input type="hidden" name="_method" value="PUT">
                             <input type="hidden" name="task_id" value="${t.getId()}">
-                            <button class="checked-circle"></button>
+                            <button class=${t.isDone() ? "checked-circle" : "task-circle"}></button>
                         </form>
                             ${t.getTask()}
                         <div class="deadline">
@@ -43,23 +42,6 @@
                             <button class="task-del"></button>
                         </form>
                     </li>
-                </c:if>
-                <c:if test="${!t.isDone()}">
-                    <li class="list-i">
-                        <form method="POST">
-                            <input type="hidden" name="_method" value="PUT">
-                            <input type="hidden" name="task_id" value="${t.getId()}">
-                            <button class="task-circle"></button>
-                        </form>
-                            ${t.getTask()}
-                        <div class="deadline">${t.getFormatDeadline()}</div>
-                        <form method="POST">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <input type="hidden" name="task_id" value="${t.getId()}">
-                            <button class="task-del"></button>
-                        </form>
-                    </li>
-                </c:if>
             </c:forEach>
         </ul>
     </div>
