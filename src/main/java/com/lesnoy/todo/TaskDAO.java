@@ -20,7 +20,7 @@ public class TaskDAO {
     public List<Task> getAll() {
         try (Connection connection = DriverManager.getConnection(url);
              Statement statement = connection.createStatement()) {
-            String sqlQuery = "SELECT * FROM tasks";
+            String sqlQuery = "SELECT * FROM tasks ORDER BY is_done, deadline";
             ResultSet resultSet = statement.executeQuery(sqlQuery);
             List<Task> tasks = new ArrayList<>();
             while (resultSet.next()) {
@@ -49,7 +49,7 @@ public class TaskDAO {
             int i = statement.executeUpdate(sqlQuery);
             if (i == 1) {
                 List<Task> tasks = new ArrayList<>();
-                sqlQuery = "SELECT * FROM tasks";
+                sqlQuery = "SELECT * FROM tasks ORDER BY is_done, deadline";
                 ResultSet resultSet = statement.executeQuery(sqlQuery);
                 while (resultSet.next()) {
                     tasks.add(new Task(
