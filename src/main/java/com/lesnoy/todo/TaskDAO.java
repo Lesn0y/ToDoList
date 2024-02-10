@@ -40,8 +40,8 @@ public class TaskDAO {
         String sqlQuery = "DELETE FROM tasks WHERE id=?;";
         try (Connection connection = connectionBuilder.getConnection();
              PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
-            statement.setInt(1, id);
-            return statement.executeUpdate(sqlQuery) == 1;
+            statement.setLong(1, id);
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -52,7 +52,7 @@ public class TaskDAO {
         try (Connection connection = connectionBuilder.getConnection();
              PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
             statement.setInt(1, id);
-            return statement.executeUpdate(sqlQuery) == 1;
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
