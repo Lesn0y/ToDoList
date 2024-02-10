@@ -6,19 +6,10 @@ import java.util.List;
 
 public class TaskDAO {
 
-    private final String url = "jdbc:postgresql://localhost:5432/todo";
-
-    static {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            System.out.println("PostgreSQL Driver not found");
-            throw new RuntimeException(e);
-        }
-    }
+    private final PoolConnectionBuilder connectionBuilder = new PoolConnectionBuilder();
 
     public List<Task> getAll() {
-        try (Connection connection = DriverManager.getConnection(url);
+        try (Connection connection = connectionBuilder.getConnection();
              Statement statement = connection.createStatement()) {
             return findALL(statement);
         } catch (SQLException e) {
@@ -27,7 +18,7 @@ public class TaskDAO {
     }
 
     public List<Task> save(Task task) {
-        try (Connection connection = DriverManager.getConnection(url);
+        try (Connection connection = connectionBuilder.getConnection();
              Statement statement = connection.createStatement()) {
             String sqlQuery;
             if (task.getDeadline() == null) {
@@ -47,7 +38,7 @@ public class TaskDAO {
 
     public boolean deleteById(int id) {
         String sqlQuery = "DELETE FROM tasks WHERE id=?;";
-        try (Connection connection = DriverManager.getConnection(url);
+        try (Connection connection = connectionBuilder.getConnection();
              PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
             statement.setInt(1, id);
             return statement.executeUpdate(sqlQuery) == 1;
@@ -58,7 +49,7 @@ public class TaskDAO {
 
     public boolean updateDone(int id) {
         String sqlQuery = "UPDATE tasks SET is_done = true WHERE id=?;";
-        try (Connection connection = DriverManager.getConnection(url);
+        try (Connection connection = connectionBuilder.getConnection();
              PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
             statement.setInt(1, id);
             return statement.executeUpdate(sqlQuery) == 1;
