@@ -20,18 +20,7 @@ public class TaskDAO {
     public List<Task> getAll() {
         try (Connection connection = DriverManager.getConnection(url);
              Statement statement = connection.createStatement()) {
-            String sqlQuery = "SELECT * FROM tasks ORDER BY is_done, deadline";
-            ResultSet resultSet = statement.executeQuery(sqlQuery);
-            List<Task> tasks = new ArrayList<>();
-            while (resultSet.next()) {
-                tasks.add(new Task(
-                        resultSet.getInt("id"),
-                        resultSet.getString("task"),
-                        resultSet.getTimestamp("deadline"),
-                        resultSet.getBoolean("is_done")
-                ));
-            }
-            return tasks;
+            return findALL(statement);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -48,18 +37,7 @@ public class TaskDAO {
             }
             int i = statement.executeUpdate(sqlQuery);
             if (i == 1) {
-                List<Task> tasks = new ArrayList<>();
-                sqlQuery = "SELECT * FROM tasks ORDER BY is_done, deadline";
-                ResultSet resultSet = statement.executeQuery(sqlQuery);
-                while (resultSet.next()) {
-                    tasks.add(new Task(
-                            resultSet.getInt("id"),
-                            resultSet.getString("task"),
-                            resultSet.getTimestamp("deadline"),
-                            resultSet.getBoolean("is_done")
-                    ));
-                }
-                return tasks;
+                return findALL(statement);
             }
             return null;
         } catch (SQLException e) {
@@ -68,9 +46,10 @@ public class TaskDAO {
     }
 
     public boolean deleteById(int id) {
+        String sqlQuery = "DELETE FROM tasks WHERE id=?;";
         try (Connection connection = DriverManager.getConnection(url);
-             Statement statement = connection.createStatement()) {
-            String sqlQuery = String.format("DELETE FROM tasks WHERE id=%d;", id);
+             PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+            statement.setInt(1, id);
             return statement.executeUpdate(sqlQuery) == 1;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -78,13 +57,28 @@ public class TaskDAO {
     }
 
     public boolean updateDone(int id) {
+        String sqlQuery = "UPDATE tasks SET is_done = true WHERE id=?;";
         try (Connection connection = DriverManager.getConnection(url);
-             Statement statement = connection.createStatement()) {
-            String sqlQuery = String.format("UPDATE tasks SET is_done = true WHERE id=%d;", id);
+             PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+            statement.setInt(1, id);
             return statement.executeUpdate(sqlQuery) == 1;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
+    private List<Task> findALL(Statement statement) throws SQLException {
+        String sqlQuery = "SELECT * FROM tasks ORDER BY is_done, deadline";
+        ResultSet resultSet = statement.executeQuery(sqlQuery);
+        List<Task> tasks = new ArrayList<>();
+        while (resultSet.next()) {
+            tasks.add(new Task(
+                    resultSet.getInt("id"),
+                    resultSet.getString("task"),
+                    resultSet.getTimestamp("deadline"),
+                    resultSet.getBoolean("is_done")
+            ));
+        }
+        return tasks;
+    }
 }
