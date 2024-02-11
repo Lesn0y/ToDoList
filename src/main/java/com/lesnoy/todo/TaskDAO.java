@@ -1,11 +1,15 @@
 package com.lesnoy.todo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TaskDAO {
 
+    private static final Logger log = LoggerFactory.getLogger(TaskDAO.class);
     private final PoolConnectionBuilder connectionBuilder = new PoolConnectionBuilder();
 
     public List<Task> getAll() {
@@ -32,6 +36,7 @@ public class TaskDAO {
             }
             return null;
         } catch (SQLException e) {
+            log.error("Error during entry '" + task.toString() + "' into the database");
             throw new RuntimeException(e);
         }
     }
@@ -43,6 +48,7 @@ public class TaskDAO {
             statement.setLong(1, id);
             return statement.executeUpdate() == 1;
         } catch (SQLException e) {
+            log.error("Error deleting an entry with id=" + id + " from the database");
             throw new RuntimeException(e);
         }
     }
@@ -54,6 +60,7 @@ public class TaskDAO {
             statement.setInt(1, id);
             return statement.executeUpdate() == 1;
         } catch (SQLException e) {
+            log.error("Error modifying an entry with id=" + id + " from the database");
             throw new RuntimeException(e);
         }
     }

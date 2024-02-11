@@ -5,6 +5,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 @WebServlet("")
 public class TaskServlet extends HttpServlet {
 
+    private static final Logger log = LoggerFactory.getLogger(TaskServlet.class);
     private final TaskDAO taskDAO = new TaskDAO();
 
     @Override
@@ -32,6 +35,7 @@ public class TaskServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        log.info("Accept request '" + req.getRequestURI() + "', 'GET' method");
         getServletContext().setAttribute("tasks", taskDAO.getAll());
         getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
     }
@@ -40,6 +44,9 @@ public class TaskServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String task = req.getParameter("task");
         String deadPar = req.getParameter("deadline"); // 2024-02-08T13:46
+        log.info("Accept request '" + req.getRequestURI() + "', 'POST' method, with parameters " +
+                "{'task'-'" + task + "'," +
+                 "'deadline'-'" + deadPar + "'}");
         List<Task> tasks;
         if (!deadPar.isEmpty()) {
             Timestamp deadline = Timestamp.valueOf(deadPar.replace('T', ' ') + ":00");
@@ -54,6 +61,8 @@ public class TaskServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int taskId = Integer.parseInt(req.getParameter("task_id"));
+        log.info("Accept request '" + req.getRequestURI() + "', 'DELETE' method, with parameter " +
+                "{'task_id'-'" + taskId + "'}");
         if (taskDAO.deleteById(taskId)) {
             List<Task> tasks = (List<Task>) getServletContext().getAttribute("tasks");
             getServletContext().setAttribute("tasks", tasks.stream()
@@ -66,6 +75,8 @@ public class TaskServlet extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int taskId = Integer.parseInt(req.getParameter("task_id"));
+        log.info("Accept request '" + req.getRequestURI() + "', 'PUT' method, with parameter " +
+                "{'task_id'-'" + taskId + "'}");
         if (taskDAO.updateDone(taskId)) {
             List<Task> tasks = (List<Task>) getServletContext().getAttribute("tasks");
             Task task = tasks.stream()
